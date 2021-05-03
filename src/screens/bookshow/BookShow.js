@@ -4,6 +4,7 @@ import Header from '../../common/header/Header';
 import Typography from '@material-ui/core/Typography';
 import './BookShow.css';
 import Home from '../home/Home';
+import Confirmation from '../confirmation/Confirmation';
 import language from '../../common/language';
 import location from '../../common/location';
 import showDate from '../../common/showDate';
@@ -43,6 +44,10 @@ class BookShow extends Component {
         ReactDOM.render(<Home />, document.getElementById('root'));
     }
 
+    locationChangeHandler = event => {
+        this.setState({ location: event.target.value });
+    }
+
     languageChangeHandler = event => {
         this.setState({ language: event.target.value });
     }
@@ -65,6 +70,7 @@ class BookShow extends Component {
         this.state.showDate === "" ? this.setState({ reqShowDate: "dispBlock" }) : this.setState({ reqShowDate: "dispNone" });
         this.state.showTime === "" ? this.setState({ reqShowTime: "dispBlock" }) : this.setState({ reqShowTime: "dispNone" });
         this.state.tickets === 0 ? this.setState({ reqTickets: "dispBlock" }) : this.setState({ reqTickets: "dispNone" });
+        ReactDOM.render(<Confirmation bookingSummary={this.state} />, document.getElementById('root'));
     }
 
     render() {
@@ -86,8 +92,7 @@ class BookShow extends Component {
                                 <InputLabel htmlFor="location">Choose Location:</InputLabel>
                                 <Select
                                     value={this.state.location}
-                                    onChange={this.locationChangeHandler}
-                                >
+                                    onChange={this.locationChangeHandler}>
                                     {location.map(loc => (
                                         <MenuItem key={"loc" + loc.id} value={loc.location}>
                                             {loc.location}
