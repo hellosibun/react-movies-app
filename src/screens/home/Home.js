@@ -168,8 +168,8 @@ class Home extends Component {
 
                                 <FormControl className={classes.formControl}>
                                     <TextField 
-                                        id="releaseDateTo" 
-                                        label="Release Date To"
+                                        id="releaseDateEnd" 
+                                        label="Release Date End"
                                         type="date"
                                         defaultValue=""
                                         InputLabelProps={{shrink: true}}/>
