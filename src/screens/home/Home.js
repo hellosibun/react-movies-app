@@ -16,7 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Checkbox, ListItemText, TextField } from '@material-ui/core';
+import { Button, Checkbox, ListItemText, TextField } from '@material-ui/core';
 
 
 const styles = theme => ({
@@ -173,6 +173,11 @@ class Home extends Component {
                                         type="date"
                                         defaultValue=""
                                         InputLabelProps={{shrink: true}}/>
+                                </FormControl>
+                                
+                                <br/><br/>
+                                <FormControl className={classes.formControl}>
+                                    <Button variant="contained" color="primary">Apply</Button>
                                 </FormControl>
 
 
