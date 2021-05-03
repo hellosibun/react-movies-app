@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './common/common.css';
 import 'fontsource-roboto';
-import Home from './screens/home/Home';
+import Controller from './screens/Controller';
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-    <Home/>,
+  <Controller />, 
   document.getElementById('root')
-);
+  );
 
 
 reportWebVitals();
