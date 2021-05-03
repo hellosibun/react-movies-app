@@ -5,7 +5,8 @@
 
 .back {
     cursor: pointer;
-} 
+}
+
 .cardStyle {
     width: 280px;
     padding: 32px 64px 32px 64px;
@@ -19,4 +20,16 @@
 
 .marginTop16 {
     margin-top: 16px;
-} 
+}
+
+.dispNone {
+    display: none;
+}
+
+.dispBlock {
+    display: block;
+}
+
+.red {
+    color: red;
+}
