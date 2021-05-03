@@ -16,7 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Checkbox, ListItemText } from '@material-ui/core';
+import { Checkbox, ListItemText, TextField } from '@material-ui/core';
 
 
 const styles = theme => ({
@@ -146,8 +146,7 @@ class Home extends Component {
                                         input={<Input id="select-multiple-checkbox" />}
                                         renderValue={selected => selected.join(',')}
                                         value={this.state.artists}
-                                        onChange={this.artistSelectHandler}
-                                    >
+                                        onChange={this.artistSelectHandler}>
                                         <MenuItem value="0">None</MenuItem>
                                         {artists.map(artist => (
                                             <MenuItem key={artist.id} value={artist.first_name + " " + artist.last_name}>
@@ -156,6 +155,24 @@ class Home extends Component {
                                             </MenuItem>
                                         ))}
                                     </Select>
+                                </FormControl>
+
+                                <FormControl className={classes.formControl}>
+                                    <TextField 
+                                        id="releaseDateStart" 
+                                        label="Release Date Start"
+                                        type="date"
+                                        defaultValue=""
+                                        InputLabelProps={{shrink: true}}/>
+                                </FormControl>
+
+                                <FormControl className={classes.formControl}>
+                                    <TextField 
+                                        id="releaseDateTo" 
+                                        label="Release Date To"
+                                        type="date"
+                                        defaultValue=""
+                                        InputLabelProps={{shrink: true}}/>
                                 </FormControl>
 
 
