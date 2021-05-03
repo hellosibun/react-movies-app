@@ -54,6 +54,8 @@ class Header extends Component {
             registerPassword: "",
             contactRequired: "dispNone",
             contact: "",
+            registrationSuccess: false,
+            loggedIn: sessionStorage.getItem("access-token") == null ? false : true
         };
     }
 
@@ -87,13 +89,31 @@ class Header extends Component {
     };
 
     loginClickHandler = () => {
-        this.state.username === ""
-            ? this.setState({ usernameRequired: "dispBlock" })
-            : this.setState({ usernameRequired: "dispNone" });
-        this.state.loginPassword === ""
-            ? this.setState({ loginPasswordRequired: "dispBlock" })
-            : this.setState({ loginPasswordRequired: "dispNone" });
-    };
+        this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
+        this.state.loginPassword === "" ? this.setState({ loginPasswordRequired: "dispBlock" }) : this.setState({ loginPasswordRequired: "dispNone" });
+
+        let dataLogin = null;
+        let xhrLogin = new XMLHttpRequest();
+        let that = this;
+        xhrLogin.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                sessionStorage.setItem("uuid", JSON.parse(this.responseText).id);
+                sessionStorage.setItem("access-token", xhrLogin.getResponseHeader("access-token"));
+
+                that.setState({
+                    loggedIn: true
+                });
+
+                that.closeModalHandler();
+            }
+        });
+
+        xhrLogin.open("POST", this.props.baseUrl + "auth/login");
+        xhrLogin.setRequestHeader("Authorization", "Basic " + window.btoa(this.state.username + ":" + this.state.loginPassword));
+        xhrLogin.setRequestHeader("Content-Type", "application/json");
+        xhrLogin.setRequestHeader("Cache-Control", "no-cache");
+        xhrLogin.send(dataLogin);
+    }
 
     inputUsernameChangeHandler = (e) => {
         this.setState({ username: e.target.value });
@@ -119,8 +139,32 @@ class Header extends Component {
         this.state.contact === ""
             ? this.setState({ contactRequired: "dispBlock" })
             : this.setState({ contactRequired: "dispNone" });
-    };
+        let dataSignup = JSON.stringify({
+            "email_address": this.state.email,
+            "first_name": this.state.firstname,
+            "last_name": this.state.lastname,
+            "mobile_number": this.state.contact,
+            "password": this.state.registerPassword
+        });
+    
+        let xhrSignup = new XMLHttpRequest();
+        let that = this;
+        xhrSignup.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                that.setState({
+                    registrationSuccess: true
+                });
+            }
+        });
+    
+        xhrSignup.open("POST", this.props.baseUrl + "signup");
+        xhrSignup.setRequestHeader("Content-Type", "application/json");
+        xhrSignup.setRequestHeader("Cache-Control", "no-cache");
+        xhrSignup.send(dataSignup);
+            
+    }
 
+    
     inputFirstNameChangeHandler = (e) => {
         this.setState({ firstname: e.target.value });
     };
@@ -213,13 +257,17 @@ class Header extends Component {
                                     <span className="red">required</span>
                                 </FormHelperText>
                             </FormControl>
-                            <br />
-                            <br />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={this.loginClickHandler}>
-                                Login
+                            <br /><br />
+                            {this.state.loggedIn === true &&
+                                <FormControl>
+                                    <span className="successText">
+                                        Login Successful!
+                                    </span>
+                                </FormControl>
+                            }
+                            <br /><br />
+                            <Button variant="contained" color="primary"
+                                onClick={this.loginClickHandler}>  Login
                             </Button>
                         </TabContainer>
                     )}
@@ -294,15 +342,20 @@ class Header extends Component {
                                     <span className="red">required</span>
                                 </FormHelperText>
                             </FormControl>
-                            <br />
-                            <br />
+                            <br /><br />
+                            {this.state.registrationSuccess === true &&
+                                <FormControl>
+                                    <span className="successText">
+                                        Registration Successful. Please Login!
+                                      </span>
+                                </FormControl>
+                            }
+                            <br /><br />
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={this.registerClickHandler}
-                            >
-                                REGISTER
-              </Button>
+                                onClick={this.registerClickHandler}>REGISTER
+                            </Button>
                         </TabContainer>
                     )}
                 </Modal>

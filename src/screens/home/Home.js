@@ -117,23 +117,23 @@ class Home extends Component {
         const {classes} =this.props;
         return(
             <div>
-                <Header />
+                <Header baseUrl={this.props.baseUrl} />
                 <div className={classes.upcomingMoviesHeading}>
                     <span>Upcoming Movies</span>
                 </div>
                 <GridList cols={5} className={classes.gridListUpcomingMovies}>
                 {this.state.upcomingMovies.map(movie => (
-                        <GridListTile key={"upcoming" + movie.id}>
-                            <img src={movie.poster_url} alt={movie.title} className="movie-poster"/>
-                            <GridListTileBar title={movie.title} />
-                        </GridListTile>
+                    <GridListTile key={"upcoming" + movie.id}>
+                        <img src={movie.poster_url} alt={movie.title} className="movie-poster"/>
+                        <GridListTileBar title={movie.title} />
+                    </GridListTile>
                     ))}
                 </GridList>
 
                 <div className="flex-container">
                     <div className="left">
                         <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
-                        {this.state.releasedMovies.map(movie => (
+                            {this.state.releasedMovies.map(movie => (
                                 <GridListTile onClick={() => this.movieClickHandler(movie.id) } className="released-movie-grid-item" key={"grid" + movie.id}>
                                     <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                                     <GridListTileBar
